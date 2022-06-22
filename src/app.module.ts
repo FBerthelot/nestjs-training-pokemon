@@ -3,10 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PokemonController } from './pokemon/pokemon.controller';
 import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { PokemonService } from './pokemon/pokemon.service';
 
 @Module({
   imports: [],
   controllers: [AppController, PokemonController, AuthController],
-  providers: [AppService],
+  providers: [AppService, AuthService, PokemonService],
 })
 export class AppModule {}

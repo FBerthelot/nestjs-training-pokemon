@@ -72,7 +72,7 @@ describe('PokemonController', () => {
 
       await request(server)
         .get('/pokemon')
-        .expect(['salameche', 'bulbizarre', 'Florent Berthelot']);
+        .expect(['pikachu', 'salameche', 'bulbizarre', 'Florent Berthelot']);
     });
   });
 });

@@ -1,19 +1,13 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthBodyDTO } from './auth.dto';
-
-const users = [
-  {
-    name: 'florent',
-    password: 'training',
-  },
-];
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private authService: AuthService) {}
+
   @Post()
   authenticate(@Body() { name, password }: AuthBodyDTO) {
-    return !!users.find(
-      (user) => user.name === name && user.password === password,
-    );
+    return this.authService.authenticate(name, password);
   }
 }
