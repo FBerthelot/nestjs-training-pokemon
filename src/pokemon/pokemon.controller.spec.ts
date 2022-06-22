@@ -35,13 +35,13 @@ describe('PokemonController', () => {
       });
     });
 
-    it('should return salameche when asking for id 1', () => {
-      return request(app.getHttpServer()).get('/pokemon/2').expect(200).expect({
-        id: '2',
-        name: 'salameche',
-        speed: 40,
-        attack: 10,
-        hp: 100,
+    it('should return the pokemon from poke API when asking for id 3', () => {
+      return request(app.getHttpServer()).get('/pokemon/3').expect(200).expect({
+        id: '3',
+        name: 'bulbizarre',
+        speed: 30,
+        attack: 50,
+        hp: 64,
       });
     });
   });

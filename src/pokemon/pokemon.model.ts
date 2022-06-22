@@ -4,4 +4,5 @@ export type Pokemon = {
   speed: number;
   attack: number;
   hp: number;
+  url?: string;
 };

@@ -1,5 +1,10 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { Pokemon } from './pokemon.model';
+
+interface PokemonFromPokeApi {
+  base_experience: number;
+}
 
 @Injectable()
 export class PokemonService {
@@ -24,11 +29,30 @@ export class PokemonService {
       speed: 30,
       attack: 50,
       hp: 100,
+      url: 'https://pokeapi.co/api/v2/pokemon/1/',
     },
   ];
 
-  getPokemon(id: string) {
-    return this.pokemons.find((poke) => poke.id === id);
+  constructor(private http: HttpService) {}
+
+  async getPokemon(id: string): Promise<Omit<Pokemon, 'url'>> {
+    const pokemon = this.pokemons.find((poke) => poke.id === id);
+
+    const hydratedPokemon: Pokemon = { ...pokemon };
+
+    if (pokemon.url) {
+      try {
+        const pokeFromApi = await this.http
+          .get<PokemonFromPokeApi>(pokemon.url)
+          .toPromise();
+        hydratedPokemon.hp = pokeFromApi.data.base_experience;
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    delete hydratedPokemon.url;
+    return hydratedPokemon;
   }
 
   getPokemons() {
