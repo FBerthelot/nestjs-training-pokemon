@@ -20,22 +20,19 @@ describe('AuthController', () => {
       return request(app.getHttpServer())
         .post('/auth')
         .send({ name: 'florent', password: 'training' })
-        .expect(201)
-        .expect('true');
+        .expect(201);
     });
     it("should fail authentication when name doesn't exist", () => {
       return request(app.getHttpServer())
         .post('/auth')
         .send({ name: 'notExist', password: 'training' })
-        .expect(201)
-        .expect('false');
+        .expect(401);
     });
     it('should fail authentication when name exist but password is wrong', () => {
       return request(app.getHttpServer())
         .post('/auth')
         .send({ name: 'florent', password: 'badPassword' })
-        .expect(201)
-        .expect('false');
+        .expect(401);
     });
   });
 });

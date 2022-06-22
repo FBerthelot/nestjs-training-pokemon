@@ -9,7 +9,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post()
-  authenticate(@Body() { name, password }: AuthBodyDTO): boolean {
+  authenticate(@Body() { name, password }: AuthBodyDTO): string {
     return this.authService.authenticate(name, password);
   }
 }
