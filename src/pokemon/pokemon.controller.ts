@@ -1,29 +1,31 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { CreatePokemonDTO } from './pokemon.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { PokemonDTO } from './pokemon.dto';
 import { PokemonService } from './pokemon.service';
 
+@ApiTags('Pokemon')
 @Controller('pokemon')
 export class PokemonController {
   constructor(private pokemonService: PokemonService) {}
 
   @Get(':id')
-  getPokemon(@Param('id') id: string) {
+  getPokemon(@Param('id') id: string): Promise<PokemonDTO> {
     return this.pokemonService.getPokemon(id);
   }
 
   @Get()
-  getPokemons() {
+  getPokemons(): string[] {
     return this.pokemonService.getPokemons();
   }
 
   @Post()
-  postPokemon(@Body() pokemonToAdd: CreatePokemonDTO) {
+  postPokemon(@Body() pokemonToAdd: PokemonDTO): PokemonDTO {
     this.pokemonService.addPokemon(pokemonToAdd);
     return pokemonToAdd;
   }
 
   @Delete(':id')
-  deletePokemon(@Param('id') id: string) {
+  deletePokemon(@Param('id') id: string): void {
     return this.pokemonService.deletePokemon(id);
   }
 }
