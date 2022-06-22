@@ -1,14 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { CreatePokemonDTO } from './pokemon.dto';
+import { Pokemon } from './pokemon.model';
 
-type Pokemon = {
-  id: string;
-  name: string;
-  speed: number;
-  attack: number;
-  hp: number;
-};
-
-const pokemons: Pokemon[] = [
+let pokemons: Pokemon[] = [
   {
     id: '1',
     name: 'pikachu',
@@ -35,12 +29,23 @@ const pokemons: Pokemon[] = [
 @Controller('pokemon')
 export class PokemonController {
   @Get(':id')
-  getPokemon(@Param('id') id) {
+  getPokemon(@Param('id') id: string) {
     return pokemons.find((poke) => poke.id === id);
   }
 
   @Get()
   getPokemons() {
     return pokemons.map((poke) => poke.name);
+  }
+
+  @Post()
+  postPokemon(@Body() pokemonToAdd: CreatePokemonDTO) {
+    pokemons = [...pokemons, pokemonToAdd];
+    return pokemonToAdd;
+  }
+
+  @Delete(':id')
+  deletePokemon(@Param('id') id: string) {
+    pokemons = pokemons.filter((poke) => poke.id !== id);
   }
 }

@@ -45,4 +45,34 @@ describe('PokemonController', () => {
       });
     });
   });
+
+  describe('/pokemon/:id (DELETE)', () => {
+    it('should delete pikachu', async () => {
+      const server = app.getHttpServer();
+
+      await request(server).delete('/pokemon/1').expect(200);
+      await request(server).get('/pokemon').expect(['salameche', 'bulbizarre']);
+    });
+  });
+
+  describe('/pokemon/ (PUT)', () => {
+    it('should add new pokemon', async () => {
+      const server = app.getHttpServer();
+
+      await request(server)
+        .post('/pokemon')
+        .send({
+          id: '4',
+          name: 'Florent Berthelot',
+          speed: 50,
+          attack: 20,
+          hp: 100,
+        })
+        .expect(201);
+
+      await request(server)
+        .get('/pokemon')
+        .expect(['salameche', 'bulbizarre', 'Florent Berthelot']);
+    });
+  });
 });
